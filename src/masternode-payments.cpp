@@ -428,6 +428,7 @@ bool CMasternodePaymentVote::Sign()
             LogPrintf("CMasternodePaymentVote::Sign -- VerifyHash() failed, error: %s\n", strError);
             return false;
         }
+		LogPrint("mnpayments", "CMasternodePayments::Sign -- signed, hash=%s, vote=%s\n", GetHash().GetHex(), ToString());
     }
 
     return true;
