@@ -380,11 +380,6 @@ void CMasternodePayments::ProcessMessage(CNode* pfrom, const std::string& strCom
 			// AddOrUpdatePaymentVote() below should take care of it if vote is actually ok
 			res.first->second.MarkAsNotVerified();
 		}
-
-        CTxDestination address1;
-        ExtractDestination(vote.payee, address1);
-        CSyscoinAddress address2(address1);
-
 		LogPrint("mnpayments", "MASTERNODEPAYMENTVOTE -- hash=%s, nBlockHeight=%d/%d vote=%s, new\n",
 			nHash.ToString(), vote.nBlockHeight, nCachedBlockHeight, vote.ToString());
 
@@ -788,12 +783,6 @@ bool CMasternodePayments::ProcessBlock(int nBlockHeight, CConnman& connman)
     CScript payee = GetScriptForDestination(mnInfo.pubKeyCollateralAddress.GetID());
 
     CMasternodePaymentVote voteNew(activeMasternode.outpoint, nBlockHeight, payee, mnodeman.GetStartHeight(mnInfo));
-
-    CTxDestination address1;
-    ExtractDestination(payee, address1);
-    CSyscoinAddress address2(address1);
-
-    LogPrintf("CMasternodePayments::ProcessBlock -- vote: payee=%s, nBlockHeight=%d\n", address2.ToString(), nBlockHeight);
 
     // SIGN MESSAGE TO NETWORK WITH OUR MASTERNODE KEYS
 
