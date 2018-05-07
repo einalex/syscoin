@@ -909,8 +909,8 @@ bool CMasternodePaymentVote::CheckSignature(const CPubKey& pubKeyMasternode, int
             if(masternodeSync.IsMasternodeListSynced() && nBlockHeight > nValidationHeight) {
                 nDos = 20;
             }
-            return error("CMasternodePaymentVote::CheckSignature -- Got bad Masternode payment signature, masternode=%s, error: %s",
-                        masternodeOutpoint.ToStringShort(), strError);
+            return error("CMasternodePaymentVote::CheckSignature -- Got bad Masternode payment signature, signaturehash=%s, hash=%s, vote=%s, error: %s",
+                        hash.GetHex(), GetHash().GetHex(), ToString(), strError);
             
         }
     } 
