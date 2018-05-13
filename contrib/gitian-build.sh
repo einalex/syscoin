@@ -329,7 +329,7 @@ then
     echo ""
     ./bin/gbuild -j ${proc} -m ${mem} --commit syscoin=${COMMIT} --url syscoin=${url} ~/syscoin/contrib/gitian-descriptors/gitian-linux.yml
     ./bin/gsign $signProg --signer $SIGNER --release ${VERSION}-linux --destination ~/gitian.sigs/ ~/syscoin/contrib/gitian-descriptors/gitian-linux.yml
-    mv build/out/syscoin-*.tar.gz build/out/src/syscoin-*.tar.gz ../syscoin-binaries/${VERSION}
+    mv build/out/syscoincore-*.tar.gz build/out/src/syscoincore-*.tar.gz ../syscoin-binaries/${VERSION}
   fi
   # Windows
   if [[ $windows = true ]]
@@ -339,8 +339,8 @@ then
     echo ""
     ./bin/gbuild -j ${proc} -m ${mem} --commit syscoin=${COMMIT} --url syscoin=${url} ../syscoin/contrib/gitian-descriptors/gitian-win.yml
     ./bin/gsign $signProg --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs/ ../syscoin/contrib/gitian-descriptors/gitian-win.yml
-    mv build/out/syscoin-*-win-unsigned.tar.gz inputs/syscoin-win-unsigned.tar.gz
-    mv build/out/syscoin-*.zip build/out/syscoin-*.exe ../syscoin-binaries/${VERSION}
+    mv build/out/syscoincore-*-win-unsigned.tar.gz inputs/syscoincore-win-unsigned.tar.gz
+    mv build/out/syscoincore-*.zip build/out/syscoincore-*.exe ../syscoin-binaries/${VERSION}
   fi
   # Mac OSX
   if [[ $osx = true ]]
@@ -350,8 +350,8 @@ then
     echo ""
     ./bin/gbuild -j ${proc} -m ${mem} --commit syscoin=${COMMIT} --url syscoin=${url} ../syscoin/contrib/gitian-descriptors/gitian-osx.yml
     ./bin/gsign $signProg --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../syscoin/contrib/gitian-descriptors/gitian-osx.yml
-    mv build/out/syscoin-*-osx-unsigned.tar.gz inputs/syscoin-osx-unsigned.tar.gz
-    mv build/out/syscoin-*.tar.gz build/out/syscoin-*.dmg ../syscoin-binaries/${VERSION}
+    mv build/out/syscoincore-*-osx-unsigned.tar.gz inputs/syscoincore-osx-unsigned.tar.gz
+    mv build/out/syscoincore-*.tar.gz build/out/syscoincore-*.dmg ../syscoin-binaries/${VERSION}
   fi
   popd
 
@@ -414,8 +414,8 @@ then
     echo ""
     ./bin/gbuild -i --commit signature=${COMMIT} --url signature=${url} ../syscoin/contrib/gitian-descriptors/gitian-win-signer.yml
     ./bin/gsign $signProg --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../syscoin/contrib/gitian-descriptors/gitian-win-signer.yml
-    mv build/out/syscoin-*win64-setup.exe ../syscoin-binaries/${VERSION}
-    mv build/out/syscoin-*win32-setup.exe ../syscoin-binaries/${VERSION}
+    mv build/out/syscoincore-*win64-setup.exe ../syscoin-binaries/${VERSION}
+    mv build/out/syscoincore-*win32-setup.exe ../syscoin-binaries/${VERSION}
   fi
   # Sign Mac OSX
   if [[ $osx = true ]]
@@ -425,7 +425,7 @@ then
     echo ""
     ./bin/gbuild -i --commit signature=${COMMIT} --url signature=${url} ../syscoin/contrib/gitian-descriptors/gitian-osx-signer.yml
     ./bin/gsign $signProg --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../syscoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-    mv build/out/syscoin-osx-signed.dmg ../syscoin-binaries/${VERSION}/syscoin-${VERSION}-osx.dmg
+    mv build/out/syscoincore-*osx-signed.dmg ../syscoin-binaries/${VERSION}/syscoincore-${VERSION}-osx.dmg
   fi
   popd
 
