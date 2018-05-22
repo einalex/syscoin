@@ -21,6 +21,7 @@ url=https://github.com/syscoin/syscoin
 proc=$(nproc)
 mem=2000
 ec2=false
+osxSdk=false
 lxc=false
 osslTarUrl=http://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-1.7.1.tar.gz
 osslPatchUrl=https://bitcoincore.org/cfields/osslsigncode-Backports-to-1.7.1.patch
@@ -49,6 +50,7 @@ Options:
 -j              Number of processes to use. Default 2
 -m              Memory to allocate in MiB. Default 2000
 --ec2           Setup for AWS EC2
+--osx-sdk       Download OSX SDK during setup
 --lxc           Use LXC instead of KVM
 --setup         Set up the Gitian building environment. Uses KVM. If you don't want to use lxc, use the --kvm option. Only works on Debian-based systems (Ubuntu, Debian)
 --detach-sign   Create the assert file for detached signing. Will not commit anything.
@@ -154,9 +156,13 @@ while :; do
         exit 1
       fi
       ;;
-    # lxc
+    # ec2 setup networking
     --ec2)
       ec2=true
+      ;;
+    # download osx sdk
+    --osx-sdk)
+      osxSdk=true
       ;;
     # lxc
     --lxc)
@@ -212,6 +218,14 @@ then
   git clone https://github.com/syscoin/syscoin-detached-sigs.git
   git clone https://github.com/devrandom/gitian-builder.git
   pushd ./gitian-builder
+  # download OSX sdk
+  if [[ $osxSdk == true ]]
+  then
+    mkdir -p inputs
+    pushd ./inputs
+    curl https://bitcoincore.org/depends-sources/sdks/MacOSX10.11.sdk.tar.gz -o MacOSX10.11.sdk.tar.gz
+    popd
+  fi
   if [[ -n "$USE_LXC" ]]
   then
     sudo apt-get -y install lxc
