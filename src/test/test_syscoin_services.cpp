@@ -43,12 +43,12 @@ void StartNodes()
 	node1LastBlock=0;
 	node2LastBlock=0;
 	node3LastBlock=0;
-	if(boost::filesystem::exists(boost::filesystem::system_complete("node1/wallet.dat")))
-		boost::filesystem::remove(boost::filesystem::system_complete("node1//wallet.dat"));
-	if(boost::filesystem::exists(boost::filesystem::system_complete("node2/wallet.dat")))
-		boost::filesystem::remove(boost::filesystem::system_complete("node2//wallet.dat"));
-	if(boost::filesystem::exists(boost::filesystem::system_complete("node3/wallet.dat")))
-		boost::filesystem::remove(boost::filesystem::system_complete("node3//wallet.dat"));
+	if(boost::filesystem::exists(boost::filesystem::system_complete("tests/node1/wallet.dat")))
+		boost::filesystem::remove(boost::filesystem::system_complete("test/node1//wallet.dat"));
+	if(boost::filesystem::exists(boost::filesystem::system_complete("test/node2/wallet.dat")))
+		boost::filesystem::remove(boost::filesystem::system_complete("test/node2//wallet.dat"));
+	if(boost::filesystem::exists(boost::filesystem::system_complete("test/node3/wallet.dat")))
+		boost::filesystem::remove(boost::filesystem::system_complete("test/node3//wallet.dat"));
 	StopMainNetNodes();
 	printf("Starting 3 nodes in a regtest setup...\n");
 	StartNode("node1");
@@ -91,15 +91,15 @@ void StopNodes()
 }
 void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 {
-	if(boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/wallet.dat")))
+	if(boost::filesystem::exists(boost::filesystem::system_complete("test/" + dataDir + "/wallet.dat")))
 	{
-		if (!boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/regtest")))
-			boost::filesystem::create_directory(boost::filesystem::system_complete(dataDir + "/regtest"));
-		boost::filesystem::copy_file(boost::filesystem::system_complete(dataDir + "/wallet.dat"),boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat"),boost::filesystem::copy_option::overwrite_if_exists);
-		boost::filesystem::remove(boost::filesystem::system_complete(dataDir + "/wallet.dat"));
+		if (!boost::filesystem::exists(boost::filesystem::system_complete("test/" + dataDir + "/regtest")))
+			boost::filesystem::create_directory(boost::filesystem::system_complete("test/" + dataDir + "/regtest"));
+		boost::filesystem::copy_file(boost::filesystem::system_complete("test/" + dataDir + "/wallet.dat"),boost::filesystem::system_complete("test/" + dataDir + "/regtest/wallet.dat"),boost::filesystem::copy_option::overwrite_if_exists);
+		boost::filesystem::remove(boost::filesystem::system_complete("test/" + dataDir + "/wallet.dat"));
 	}
-    boost::filesystem::path fpath = boost::filesystem::system_complete("../syscoind");
-	string nodePath = fpath.string() + string(" -unittest -datadir=") + dataDir;
+    boost::filesystem::path fpath = boost::filesystem::system_complete("syscoind");
+	string nodePath = fpath.string() + string(" -unittest -datadir=test/") + dataDir;
 	if(regTest)
 		nodePath += string(" -regtest -addressindex");
 	if(!extraArgs.empty())
@@ -210,17 +210,17 @@ void StopNode (const string &dataDir) {
 		
 	}
 	MilliSleep(1000);
-	if(boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat")))
-		boost::filesystem::copy_file(boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat"),boost::filesystem::system_complete(dataDir + "/wallet.dat"),boost::filesystem::copy_option::overwrite_if_exists);
-	if(boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/regtest")))
-		boost::filesystem::remove_all(boost::filesystem::system_complete(dataDir + "/regtest"));
+	if(boost::filesystem::exists(boost::filesystem::system_complete("test/" + dataDir + "/regtest/wallet.dat")))
+		boost::filesystem::copy_file(boost::filesystem::system_complete("test/" + dataDir + "/regtest/wallet.dat"),boost::filesystem::system_complete("test/" + dataDir + "/wallet.dat"),boost::filesystem::copy_option::overwrite_if_exists);
+	if(boost::filesystem::exists(boost::filesystem::system_complete("test/" + dataDir + "/regtest")))
+		boost::filesystem::remove_all(boost::filesystem::system_complete("test/" + dataDir + "/regtest"));
 }
 
 UniValue CallRPC(const string &dataDir, const string& commandWithArgs, bool regTest, bool readJson)
 {
 	UniValue val;
-	boost::filesystem::path fpath = boost::filesystem::system_complete("../syscoin-cli");
-	string path = fpath.string() + string(" -datadir=") + dataDir;
+	boost::filesystem::path fpath = boost::filesystem::system_complete("syscoin-cli");
+	string path = fpath.string() + string(" -datadir=test/") + dataDir;
 	if(regTest)
 		path += string(" -regtest ");
 	else
