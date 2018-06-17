@@ -1,7 +1,7 @@
 Name "@PACKAGE_NAME@ (@WINDOWS_BITS@-bit)"
 
 RequestExecutionLevel highest
-SetCompressor /SOLID lzma
+SetCompressor lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
